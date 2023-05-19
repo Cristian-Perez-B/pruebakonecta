@@ -1,56 +1,71 @@
 @extends('welcome')
 
 @section('content')
+<form action="{{route('ventas.vender')}}" method="post">
+@csrf
 
+@if(Session::has('error_message'))
+        <div class="alert alert-danger alert-dismissible fade show"" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            {{Session::get('error_message')}}
+        </div>
+    @elseif(Session::has('success_message'))
+        <div class="alert alert-success alert-dismissible fade show"" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            {{Session::get('success_message')}}
+        </div>
+    @endif
 
-        
-<!-- Modal -->
-<div class="modal fade" id="create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Producto</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="" >
-        @csrf
-      <div class="modal-body">
-        
-        
-
-        <div class="mb-3">
-          <label for="" class="form-label">Categoría</label>
-          <select name="id_categoria" id="" class="form-control">
+<div class="row form-group">
+    <div class="col-md-6">
+        <label for="" class="form-label">Producto</label>
+        <select name="producto" id="" class="form-control">
             @foreach($productos as $producto)
-            <option value="{{$producto->id}}">{{$producto->nombre}}</option>
+                <option value="{{$producto->id}}">{{$producto->nombre}}</option>
             @endforeach
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="" class="form-label">Stock</label>
-          <input type="number"
-            class="form-control" name="stock" id="" aria-describedby="helpId" placeholder="Indique el Stock">
-        </div>
-
-        <div class="mb-3">
-          <label for="" class="form-label">Status</label>
-          <input type="number"
-            class="form-control" name="status" id="" aria-describedby="helpId" placeholder="1: Activo, 2: Inactivo">
-        </div>
-
-
-        
-
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Crear</button>
-      </div>
-      </form>
+        </select>
     </div>
-  </div>
+    <div class="col-md-6">
+        <label for="" class="form-label">Cantidad</label>
+        <input type="number" class="form-control" name="cantidad">
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Vender</button>
+        </div>
+    </div>
 </div>
+</form>
 
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre del Producto</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Fecha Venta</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $i = 1;
+            @endphp
+            
+            @foreach($ventas as $venta)
+            <tr>
+            <td scope="row"> {{$i++}} </td>
+                <td>{{$venta->producto->nombre}}</td>
+                <td>{{$venta->amount}}</td>
+                <td>{{$venta->created_at}}</td>
+</tr>
+            @endforeach
+            
+        </tbody>
+    </table>
+</div>
 @endsection

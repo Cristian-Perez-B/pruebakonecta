@@ -14,6 +14,7 @@ class Venta extends Model
     public $timestamps=false;
 
     public function producto(){
-        return $this->hasOne(Producto::class,'id','id_producto');
+        return $this->belongsTo(Producto::class,'id_producto','id');
     }
+
 }

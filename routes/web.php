@@ -22,4 +22,5 @@ Route::get('/', function () {
 
 Route::resource('categorias', CategoriaController::class);
 Route::resource('productos', ProductoController::class);
-Route::resource('ventas', VentaController::class);
+Route::get('ventas', [VentaController::class, 'index'])->name('ventas.index');
+Route::post('vender', [VentaController::class, 'vender'])->name('ventas.vender');

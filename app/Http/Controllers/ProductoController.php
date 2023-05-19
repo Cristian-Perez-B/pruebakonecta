@@ -46,9 +46,9 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Producto $producto)
+    public function show($id)
     {
-        //
+        return Producto::where('id', $id)->first();
     }
 
     /**
@@ -85,4 +85,6 @@ class ProductoController extends Controller
         $productos->delete();
         return redirect()->back();
     }
+
+    
 }
